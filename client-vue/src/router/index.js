@@ -35,8 +35,15 @@ const router = new VueRouter({
           component: () => import("@/views/Permissions.vue")
         },
         {
+          name: "edit_password",
+          path: "/edit_password",
+          meta: { dontCheckPermission: true }, // 不需要鉴定权限
+          component: () => import("@/views/Users/EditPassword.vue")
+        },
+        {
           path: "*",
           name: "welcome",
+          meta: { dontCheckPermission: true }, // 不需要鉴定权限
           component: () => import("@/views/Welcome.vue")
         }
       ]
@@ -74,8 +81,8 @@ router.beforeEach((to, from, next) => {
     return router.replace({ name: "login" });
   }
 
-  // 判断是否有权限(welcome: 不需要鉴别权限)
-  if (!canNext(to.path) && to.name !== "welcome") {
+  // 判断是否有权限访问
+  if (!to.meta.dontCheckPermission && !canNext(to.path)) {
     Message.error("没有权限访问该页面");
     return router.replace({ name: "welcome" });
   }

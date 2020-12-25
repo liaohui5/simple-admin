@@ -5,6 +5,7 @@ const { Controller } = require('egg');
 const loginRule = require('../validate/loginRule');
 const registerUserRule = require('../validate/registerUserRule');
 const updateUserinfoRule = require('../validate/updateUserinfoRule');
+const updatePasswordRule = require('../validate/updatePasswordRule');
 const { Op } = require('sequelize');
 
 class UserController extends Controller {
@@ -74,6 +75,16 @@ class UserController extends Controller {
     user.token = jwt.sign(user, this.config.keys);
     user.permissions = await service.user.getUserPermis(user.id, 0);
     ctx.success(user);
+  }
+
+  // 修改密码
+  async updatePassword() {
+    const { ctx } = this;
+    const { request, service } = ctx;
+    const data = request.body;
+    ctx.validate(updatePasswordRule, data);
+    await service.user.updatePassword(ctx.user.id, data);
+    ctx.success();
   }
 }
 

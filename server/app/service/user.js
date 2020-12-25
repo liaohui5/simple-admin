@@ -41,8 +41,7 @@ class UserService extends Service {
    * 获取用户所有路由权限(去重)
    * @param {Number} uid 用户ID
    * @param {Number} type 获取权限类型 0:路由权限 1:api权限 2: 所有
-   * @throws {Error} 错误的获取类型
-   */
+   * @throws {Error} 错误的获取类型*/
   async getUserPermis(uid, type = 2) {
     const allowTypes = [0, 1, 2];
     if (!allowTypes.includes(type)) {
@@ -197,6 +196,27 @@ class UserService extends Service {
       transaction.rollback();
       throw new Error(e.message);
     }
+  }
+
+  /**
+   * 更新用户密码
+   * @param {Number} id 用户ID
+   * @param {Object} data 新密码和旧密码
+   */
+  async updatePassword(id, data) {
+    const { User } = this.ctx.model;
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw new Error('用户不存在');
+    }
+
+    // 旧密码是否有误, 正确就直接修改
+    const isValid = bcrypt.compareSync(data.old_password, user.password);
+    if (!isValid) {
+      throw new Error('邮箱或密码有误');
+    }
+    user.password = data.new_password;
+    return await user.save();
   }
 }
 

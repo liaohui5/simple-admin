@@ -7,7 +7,7 @@
       </div>
       <span class="username">{{ user.username }}</span>
       <!-- TODO: 修改密码 -->
-      <el-button type="primary" size="small" @click="logout">修改密码</el-button>
+      <el-button type="primary" size="small" @click="goEditPassword">修改密码</el-button>
       <el-button type="danger" size="small" @click="logout">注销登录</el-button>
     </div>
   </div>
@@ -21,9 +21,15 @@ export default {
     ...mapGetters("login", ["user"])
   },
   methods: {
+    // 注销登录
     logout() {
       this.$store.commit("login/logout");
       this.$router.replace({ name: "login" });
+    },
+
+    // 去修改密码
+    goEditPassword() {
+      this.$router.push({ name: "edit_password" });
     }
   }
 };

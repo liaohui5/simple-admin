@@ -17,6 +17,9 @@ module.exports = app => {
   // 登录
   router.post('/api/user/login', sign(), user.login);
 
+  // 修改密码(不需要验证权限: 任何用户都可以修改自己的账户密码)
+  router.post('/api/user/update_password', sign(), auth(), user.updatePassword);
+
   // 头像上传
   router.post('/upload/avatar', upload.avatar);
 

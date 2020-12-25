@@ -3,6 +3,9 @@ import http from "./http";
 // 用户登录
 export const login = data => http.post("/user/login", data);
 
+// 修改用户密码
+export const updatePassword = data => http.post("/user/update_password", data);
+
 // 获取用户信息
 export const getUsers = params => http.get("/users", { params });
 
