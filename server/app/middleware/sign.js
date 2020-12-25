@@ -23,7 +23,7 @@ module.exports = () => async (ctx, next) => {
     url: `${origin}${path}`,
     method: method.toLowerCase(),
   };
-  if (Object.keys(ctx.params).length) {
+  if (args.method === 'get' && Object.keys(ctx.params).length) {
     args.params = ctx.params;
   }
   if (Object.keys(body).length) {
