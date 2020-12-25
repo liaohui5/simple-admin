@@ -12,7 +12,7 @@
               <span slot="title">首页</span>
             </template>
           </el-menu-item>
-          <el-submenu v-for="item in permissionsTree" :key="item.id" :index="item.desc">
+          <el-submenu v-for="item in menus" :key="item.id" :index="item.desc">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{ item.desc }}</span>
@@ -44,7 +44,7 @@ export default {
     Navbar
   },
   computed: {
-    ...mapGetters("login", ["permissionsTree"])
+    ...mapGetters("login", ["menus"])
   }
 };
 </script>

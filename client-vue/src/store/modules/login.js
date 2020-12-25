@@ -19,12 +19,13 @@ export default {
       }
       return state.authUser.permissions;
     },
-    permissionsTree(state) {
-      // 获取用户的所有路由权限并生成树形结构数据
+    menus(state) {
+      // 获取用户的所有路由权限并生成树形结构数据(侧边栏)
       if (!state.authUser || !state.authUser.permissions) {
         return [];
       }
-      return getTree(state.authUser.permissions);
+      const permis = state.authUser.permissions.filter(item => item.icon);
+      return getTree(permis);
     }
   },
 

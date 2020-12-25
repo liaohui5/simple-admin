@@ -28,7 +28,7 @@
       </el-form-item>
       <el-form-item v-else label="icon">
         <div class="icon-wrapper">
-          <el-input v-model.trim="newPermission.icon" max="32" />
+          <el-input v-model.trim="newPermission.icon" placeholder="如果为空则不会显示到侧边栏" max="32" />
           <a href="https://element.eleme.cn/#/zh-CN/component/icon" target="_blank" class="all-icon-link">查看所有图标</a>
         </div>
       </el-form-item>
