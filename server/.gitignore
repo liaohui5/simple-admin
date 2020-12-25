@@ -13,3 +13,5 @@ run/
 *.gitkeep
 typings/
 .nyc_output/
+
+app/public/uploads/
