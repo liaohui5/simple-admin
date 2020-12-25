@@ -31,8 +31,8 @@ export default {
   data() {
     return {
       loginData: {
-        email: "admin@qq.com",
-        password: "123456"
+        email: "",
+        password: ""
       },
       loginRules: {
         email: [{ validator: this.checkEmail, trigger: "blur" }],

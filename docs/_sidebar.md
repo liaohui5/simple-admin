@@ -1,4 +1,4 @@
-- [首页](README)
+- [快速开始](README)
 
 - API 文档
 
