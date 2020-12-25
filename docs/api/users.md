@@ -61,6 +61,28 @@
 | Permission.status | 是   | int                 | 权限状态(0: 正常)                                         |
 | Permission.pid    | 是   | int                 | 权限的父级 ID                                             |
 
+## 修改用户密码
+
+- 请求方式: `POST`
+- 请求路径: `/api/user/update_password`
+- 请求参数:
+
+| 字段         | 必选 | 类型   | 说明   |
+| :----------- | :--- | :----- | :----- |
+| old_password | 是   | string | 原密码 |
+| new_password | 是   | string | 新密码 |
+
+- 响应示例:
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "修改成功",
+  "data": null
+}
+```
+
 ## 用户列表
 
 - 请求方式: `GET`
