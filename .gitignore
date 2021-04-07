@@ -14,6 +14,8 @@ bin-release/
 *.apk
 
 .github/
+.idea/
+.vscode/
 uploads/
 node_modules/
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
