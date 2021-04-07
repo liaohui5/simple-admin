@@ -6,9 +6,9 @@ import * as filters from "./filters";
 import * as directives from "./directives";
 
 Object.keys(filters).forEach(key => {
-    Vue.filter(key, filters[key]);
+  Vue.filter(key, filters[key]);
 });
 
 Object.keys(directives).forEach(key => {
-    Vue.directive(key, directives[key]);
+  Vue.directive(key, directives[key]);
 });

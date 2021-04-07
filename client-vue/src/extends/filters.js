@@ -1,6 +1,6 @@
 /**
  * 格式化时间
- * @param {*} str 
+ * @param {*} str
  */
 export const datetime = str => {
   const date = new Date(str);
