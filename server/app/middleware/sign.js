@@ -1,9 +1,11 @@
 'use strict';
 
 // !!解决 JSEncrypt 报错: 必须在 require JSEncrypt 之前执行
+// !!require('JSEncrypt/bin/jsencrypt'); 修复最新版报错的问题
 global.window = {};
 global.navigator = { appName: 'node.js' };
-const { JSEncrypt } = require('JSEncrypt');
+// const { JSEncrypt } = require('JSEncrypt');
+const JSEncrypt = require('JSEncrypt/bin/jsencrypt');
 const { SHA256 } = require('crypto-js');
 
 /**
