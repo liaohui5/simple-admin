@@ -34,8 +34,8 @@ class PermissionController extends Controller {
     if (desc) {
       where.desc = { [Op.like]: `%${desc}%` };
     }
-    page = Number(page);
-    size = Number(size);
+    page = Number(page) || 1;
+    size = Number(size) || 10;
     const datas = await ctx.service.permission.getPermis(where, page, size);
     ctx.success(datas);
   }

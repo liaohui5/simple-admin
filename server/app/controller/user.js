@@ -14,8 +14,8 @@ class UserController extends Controller {
     const { query, service } = this.ctx;
     let { page, size, type, content } = query;
     type = Number(type);
-    page = Number(page);
-    size = Number(size);
+    page = Number(page) || 1;
+    size = Number(size) || 10;
 
     const where = {};
     if (type && content) {
