@@ -41,7 +41,13 @@ module.exports = appInfo => {
     origin: '*',
     keepHeadersOnError: true,
     allowMethods: 'GET,HEAD,POST,PUT,DELETE,PATCH,OPTIONS',
-    allowHeaders: ['Accept', 'Content-Type', 'Client-Signature', 'User-Token'],
+    allowHeaders: [
+      'Accept',
+      'Content-Type',
+      'Client-Signature',
+      'User-Token',
+      'x-requested-with',
+    ],
   };
 
   // 文件上传配置
