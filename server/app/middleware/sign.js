@@ -25,8 +25,8 @@ module.exports = () => async (ctx, next) => {
     url: `${origin}${path}`,
     method: method.toLowerCase(),
   };
-  if (args.method === 'get' && Object.keys(ctx.params).length) {
-    args.params = ctx.params;
+  if (args.method === 'get' && Object.keys(ctx.query).length) {
+    args.params = ctx.query;
   }
   if (Object.keys(body).length) {
     args.data = body;
@@ -43,7 +43,7 @@ gXCiI6ytT4k5e1shoQIDAQAB
 -----END PUBLIC KEY-----`;
   jsencrypt.setPublicKey(publicKey);
   if (!jsencrypt.verify(JSON.stringify(args), sign, SHA256)) {
-    return ctx.error(403, msg);
+    return ctx.error(403, msg + JSON.stringify(args));
   }
 
   await next();

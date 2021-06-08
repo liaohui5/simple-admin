@@ -19,7 +19,13 @@ export const makeSignWithConfig = config => {
   const { baseURL, url, params, method, data } = config;
   const args = { url: `${baseURL}${url}`, method };
   if (data) args.data = data;
-  if (params) args.params = data;
+  if (params) {
+    // 因为服务端是用query来接收的, 所以都是字符串,否则验证通不过
+    args.params = {};
+    for (let key in params) {
+      args.params[key] = params[key].toString();
+    }
+  }
   const privateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQDA/SVT71FB1DABDW41oq6I7vBa9IcFNuEKnIVcLTZmnGfj5hx5
 Z1f1IkKdNj1YYFhMh5PxsYREd+uUHVwljDR9ZnPxcy0PNyMGaUiwkYBfrJ7W2K/B
