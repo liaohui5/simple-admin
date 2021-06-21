@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="small" @click="login">登录</el-button>
-          <el-button type="text" size="small" @click="toRegister">没有账号? 去注册</el-button>
+          <!-- <el-button type="text" size="small" @click="toRegister">没有账号? 去注册</el-button> -->
         </el-form-item>
       </el-form>
     </el-card>
@@ -60,11 +60,6 @@ export default {
         return callback(new Error("密码必须是6-18位字母,数字,下划线"));
       }
       callback();
-    },
-
-    // 跳到注册页面
-    toRegister() {
-      this.$router.push({ name: "register" });
     },
 
     // 登录: 先检查数据, 然后执行登录操作
