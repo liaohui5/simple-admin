@@ -2,6 +2,9 @@ import Vue from "vue";
 import store from "../store";
 import VueRouter from "vue-router";
 import { Message } from "element-ui";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css"; // progress bar style
+NProgress.configure({ showSpinner: false });
 
 Vue.use(VueRouter);
 
@@ -71,6 +74,9 @@ const canNext = path => {
  * 验证登录, 路由守卫
  */
 router.beforeEach((to, from, next) => {
+  NProgress.start();
+  console.info(NProgress);
+
   // 不需要登录: 直接访问
   if (to.meta.isPublic) {
     return next();
@@ -89,5 +95,10 @@ router.beforeEach((to, from, next) => {
 
   return next();
 });
+
+/**
+ * 让顶部进度条结束
+ */
+router.afterEach(() => NProgress.done());
 
 export default router;
