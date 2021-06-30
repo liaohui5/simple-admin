@@ -75,7 +75,6 @@ const canNext = path => {
  */
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  console.info(NProgress);
 
   // 不需要登录: 直接访问
   if (to.meta.isPublic) {

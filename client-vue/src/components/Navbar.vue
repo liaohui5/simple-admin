@@ -6,7 +6,6 @@
         <img :src="user.avatar" />
       </div>
       <span class="username">{{ user.username }}</span>
-      <!-- TODO: 修改密码 -->
       <el-button type="primary" size="small" @click="goEditPassword">修改密码</el-button>
       <el-button type="danger" size="small" @click="logout">注销登录</el-button>
     </div>
