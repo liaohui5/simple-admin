@@ -21,11 +21,11 @@ module.exports = appInfo => {
   // 数据库链接
   config.sequelize = {
     dialect: 'mysql',
-    host: '127.0.0.1',
+    host: 'localhost',
     port: 3306,
     database: 'simple_admin',
     username: 'root',
-    password: '',
+    password: 'root',
   };
 
   // 不开启 csrf 验证

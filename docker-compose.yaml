@@ -1,0 +1,61 @@
+version: "3"
+
+
+# TODO: 容器化需要解决MySQL链接的问题
+
+networks:
+  sa: # simple-admin
+  docs: # docsify
+
+services:
+  # mysql
+  mysql:
+    image: mysql:5.7
+    container_name: sa_mysql
+    networks:
+      - sa
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./build/mysql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: simple_admin
+      MYSQL_USER: sa_admin
+      MYSQL_PWSSWORD: "123456"
+
+  # egg.js server
+  server:
+    container_name: sa_server
+    image: sa_server
+    build: ./server
+    networks:
+      - sa
+    ports:
+      - "8080:7001"
+    volumes:
+      - ./logs/egg_server:/usr/www/server/logs
+      - ./logs/egg_run:/usr/www/server/run
+    depends_on:
+      - mysql
+
+  # vue.js client
+  client_vue:
+    container_name: sa_client_vue
+    image: sa_client_vue
+    build: ./client-vue
+    networks:
+      - sa
+    ports:
+      - "8081:80"
+
+  # docsify docs
+  docs:
+    container_name: sa_docs
+    image: sa_docs
+    build: ./docs
+    networks:
+      - docs
+    ports:
+      - "8082:80"

@@ -18,3 +18,4 @@ node_modules/
 logs/
 .project
 dist/
+mysql_data
