@@ -61,7 +61,7 @@ module.exports = appInfo => {
     // 代码异常时, 执行这个处理函数, 其他函数不会生效
     // all(){}
 
-    // 当请求头中没有有: Accpet: application/json 时执行
+    // 当请求头中没有: Accept: application/json 时执行
     html(e, ctx) {
       ctx.body = `<h1>服务端报错了...</h1><p>${e.message}<p>`;
     },
