@@ -35,30 +35,30 @@
       <el-table :data="tableData.rows" border>
         <el-table-column prop="id" label="UID" />
         <el-table-column prop="avatar" label="头像">
-          <template scope="scope">
+          <template slot-scope="scope">
             <img :src="scope.row.avatar" style="width:50px;" />
           </template>
         </el-table-column>
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="email" label="邮箱地址" />
         <el-table-column label="用户角色">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tag v-for="item in scope.row.roles" size="small" :key="item.id">{{ item.role_name }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="created_at" label="创建时间">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.created_at | datetime }}
           </template>
         </el-table-column>
         <el-table-column prop="status" label="用户状态">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tag v-if="scope.row.status === 0" size="small" type="success">正常</el-tag>
             <el-tag v-else size="small" type="danger">锁定</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="250px">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="showEditUserDialog(scope.row)">修改</el-button>
             <el-button type="warning" size="mini" @click="showAssigRolesDialog(scope.row)">分配角色</el-button>
             <el-button type="danger" v-if="scope.row.status === 0" size="mini" @click="changeUserStatus(scope.row)"
@@ -148,7 +148,7 @@ export default {
 
       // 解锁
       if (status === 0) {
-        this.$refs["edit-user"].updateUserInfo(row.id, { status })
+        this.$refs["edit-user"].updateUserInfo(row.id, { status });
         return;
       }
 
