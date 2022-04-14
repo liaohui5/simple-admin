@@ -16,7 +16,7 @@
         <el-table-column prop="role_name" label="角色名称" />
         <el-table-column prop="role_desc" label="角色描述" />
         <el-table-column label="角色拥有的权限">
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- filter: 不显示顶级的权限 -->
             <el-tag
               v-for="item in scope.row.permissions.filter(p => p.pid > 0)"
@@ -30,7 +30,7 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="showEditRoleDialog(scope.row)">修改</el-button>
             <el-button size="mini" type="danger" @click="deleteRole(scope.row)">删除</el-button>
             <el-button size="mini" type="success" @click="showAssignDialog(scope.row)">分配权限</el-button>

@@ -34,7 +34,7 @@
       <el-table :data="permissions.rows" border>
         <el-table-column align="center" width="100px" label="ID" prop="id" />
         <el-table-column label="权限类型">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row.type === 0 ? "路由权限" : "API权限" }}</span>
           </template>
         </el-table-column>
@@ -42,13 +42,13 @@
         <el-table-column label="权限路径" prop="path" />
         <el-table-column label="父级权限ID" prop="pid" width="100px" />
         <el-table-column label="权限状态" width="100px">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tag v-if="scope.row.status === 0" type="success" size="small">正常</el-tag>
             <el-tag v-else type="danger" size="small">关闭</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button v-if="scope.row.status === 0" size="mini" type="warning" @click="updateRowStatus(scope.row)">
               锁定
             </el-button>
