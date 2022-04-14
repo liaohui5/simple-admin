@@ -1,6 +1,6 @@
 'use strict';
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { Service } = require('egg');
 const { Op } = require('sequelize');
 
