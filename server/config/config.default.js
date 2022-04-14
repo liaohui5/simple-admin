@@ -2,6 +2,8 @@
 
 'use strict';
 
+const db = require("./database");
+
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -19,14 +21,7 @@ module.exports = appInfo => {
   config.middleware = [];
 
   // 数据库链接
-  config.sequelize = {
-    dialect: 'mysql',
-    host: 'liaohui5.cn',
-    port: 3306,
-    database: 'simple_admin',
-    username: 'root',
-    password: 'root',
-  };
+  config.sequelize = db;
 
   // 不开启 csrf 验证
   config.security = {
