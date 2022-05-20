@@ -4,5 +4,5 @@
 
 - 本项目主要用于自己本人的学习使用
 
-[gitee](https://gitee.com/liaohui5/simple-admin)
+[github](https://github.com/liaohui5/simple-admin)
 [阅读文档](README)
