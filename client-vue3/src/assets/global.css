@@ -1,0 +1,15 @@
+html {
+  font-size: 62.5%;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.align-center{
+  justify-content: center;
+}

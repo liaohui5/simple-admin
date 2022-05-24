@@ -25,6 +25,7 @@ module.exports = () => async (ctx, next) => {
   const uid = ctx.user.id;
   const { id } = ctx.params;
   const { path: url, method } = ctx.request;
+  // TODO: set permission info cache
   const permissions = await ctx.service.user.getUserPermis(uid, 1);
   for (let i = 0, l = permissions.length; i < l; i++) {
     if (check(permissions[i].path, url, method, id)) {

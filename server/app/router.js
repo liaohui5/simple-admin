@@ -9,7 +9,7 @@ module.exports = app => {
   const { sign, auth, rbac } = middleware;
 
   // 是否开启API签名验证
-  const enableRSAChecker = false;
+  const enableRSAChecker = true;
 
   // 注意中间件的执行顺序
   const checks = enableRSAChecker ? [sign(), auth(), rbac()] : [auth(), rbac()];

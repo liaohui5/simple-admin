@@ -2,7 +2,7 @@
 
 'use strict';
 
-const db = require("./database");
+const db = require('./database');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
