@@ -1,0 +1,78 @@
+<template>
+  <div class="navbar-wrapper">
+    <div class="logo">Admin-Vue3</div>
+    <div class="infos">
+      <div class="item user">
+        <div class="avatar">
+          <img :src="user.avatar" />
+        </div>
+        <p>{{ user.username }}</p>
+      </div>
+      <div class="item">
+        <el-button type="primary" @click="goEditPassword">修改密码</el-button>
+      </div>
+      <div class="item">
+        <el-button type="danger" @click="logout">注销登录</el-button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useAuthStore } from "@/store/auth.js";
+import { useRouter } from "vue-router";
+
+const $store = useAuthStore();
+const $router = useRouter();
+
+const user = $store.authUser;
+
+// 注销登录
+const logout = () => {
+  $store.logout();
+  $router.replace({ name: "Login" });
+};
+
+const goEditPassword = () => {
+  $router.push({ name: "editPassword" });
+};
+</script>
+
+<style lang="less" scoped>
+.navbar-wrapper {
+  width: 100%;
+  height: 100%;
+  // background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #555;
+  .logo {
+    font-size: 2rem;
+  }
+  .infos {
+    display: flex;
+    .item {
+      margin-left: 1.5rem;
+    }
+    .user {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      .avatar {
+        width: 4rem;
+        height: 4rem;
+        max-width: 40px;
+        max-height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 0.5rem;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+</style>

@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import { login } from "@/api/index";
 import { AUTH } from "@/store/types";
+import { getTree } from "@/utils/tools.js";
 
 export const useAuthStore = defineStore(AUTH, {
   persist: true,
+
   state: () => ({
     authUser: null, // 登录的用户信息
   }),
@@ -16,6 +18,11 @@ export const useAuthStore = defineStore(AUTH, {
       }
       this.authUser = user;
       return Promise.resolve(user);
+    },
+
+    logout() {
+      // this.$reset();
+      this.authUser = null;
     },
   },
 
@@ -30,11 +37,11 @@ export const useAuthStore = defineStore(AUTH, {
       return [];
     },
     menus() {
+      let menus = [];
       if (this.authUser && this.authUser.permissions) {
-        // list -> tree
-        return this.authUser.permissions;
+        menus = getTree(this.authUser.permissions);
       }
-      return [];
+      return menus;
     },
   },
 });
