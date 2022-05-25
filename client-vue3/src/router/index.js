@@ -1,31 +1,40 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { beforeEach, afterEach } from "@/router/guards.js";
 
-import Login from "@/views/login/index.vue";
-import User from "@/views/user/index.vue";
-import Main from "@/views/main/index.vue";
-import Welcome from "@/views/main/welcome.vue";
-
 const routes = [
   {
     path: "/login",
     name: "Login",
     meta: { isPublic: true },
-    component: Login,
+    component: () => import(/* webpackChunkName: "login" */ "@/views/login/index.vue"),
   },
   {
     path: "/",
-    component: Main,
+    component: () =>
+      import(/* webpackChunkName: "main" */ "@/views/main/index.vue"),
+    redirect: { name: "Welcome" },
     children: [
+      {
+        path: "/users",
+        name: "user",
+        component: () =>
+          import(/* webpackChunkName: "user" */ "@/views/user/index.vue"),
+      },
+      {
+        path: "/edit_password",
+        name: "editPassword",
+        meta: { dontCheckPermission: true },
+        component: () =>
+          import(
+            /* webpackChunkName: "editPassword" */ "@/views/user/updatePassword.vue"
+          ),
+      },
       {
         path: "/",
         name: "Welcome",
         meta: { dontCheckPermission: true },
-        component: Welcome,
-      },
-      {
-        path: "/users",
-        component: User,
+        component: () =>
+          import(/* webpackChunkName: "welcome" */ "@/views/main/welcome.vue"),
       },
     ],
   },
