@@ -8,7 +8,9 @@
         <Sidebar />
       </el-aside>
       <el-main class="contents-container">
-        <router-view />
+        <KeepAlive>
+          <router-view />
+        </KeepAlive>
       </el-main>
     </el-container>
   </el-container>

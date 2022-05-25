@@ -6,7 +6,8 @@ const routes = [
     path: "/login",
     name: "Login",
     meta: { isPublic: true },
-    component: () => import(/* webpackChunkName: "login" */ "@/views/login/index.vue"),
+    component: () =>
+      import(/* webpackChunkName: "login" */ "@/views/login/index.vue"),
   },
   {
     path: "/",
@@ -19,6 +20,18 @@ const routes = [
         name: "user",
         component: () =>
           import(/* webpackChunkName: "user" */ "@/views/user/index.vue"),
+      },
+      {
+        path: "/roles",
+        name: "role",
+        component: () =>
+          import(/* webpackChunkName: "user" */ "@/views/role/index.vue"),
+      },
+      {
+        path: "/permissions",
+        name: "permission",
+        component: () =>
+          import(/* webpackChunkName: "user" */ "@/views/permission/index.vue"),
       },
       {
         path: "/edit_password",
