@@ -5,6 +5,7 @@
       <el-form
         :model="formData"
         :rules="formRule"
+        ref="formRef"
         label-width="10rem"
         label-position="left"
         class="form-wrapper"
@@ -30,7 +31,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { resetPassword } from "@/api";
 import { useAuthStore } from "@/store/auth.js";
 import { useRouter } from "vue-router";
@@ -43,6 +44,7 @@ const formData = reactive({
   new_password: "",
   confirm_password: "",
 });
+const formRef = ref();
 
 // 重置表单数据
 function resetFormData() {
@@ -52,10 +54,14 @@ function resetFormData() {
 }
 
 // 提交表单
-async function submitForm() {
-  await resetPassword(formData);
-  authStore.logout();
-  $router.replace({ name: "Login" });
+function submitForm() {
+  formRef.value.validate(async (isPass) => {
+    if (isPass) {
+      await resetPassword(formData);
+      authStore.logout();
+      $router.replace({ name: "Login" });
+    }
+  });
 }
 
 // 表单验证规则
