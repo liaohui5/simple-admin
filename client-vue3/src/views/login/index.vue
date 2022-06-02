@@ -120,5 +120,8 @@ export default defineComponent({
     width: 45rem;
     font-size: 1.8rem;
   }
+  .card-header{
+    margin: 0.5rem 0;
+  }
 }
 </style>

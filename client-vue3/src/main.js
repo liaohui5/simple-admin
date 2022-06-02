@@ -8,14 +8,21 @@ import router from "@/router";
 // import store from "./store";
 import store from "@/store";
 
-// https://meyerweb.com/eric/tools/css/reset/
+// https://github.com/necolas/normalize.css
 import "normalize.css"
 
 // element plus
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 
-// global.css
-import "@/assets/global.css";
+// global.less
+import "@/assets/global.less";
 
-createApp(App).use(store).use(router).use(ElementPlus).mount("#app");
+// global components
+import registerGlobalComponents from "./components/index";
+
+const app = createApp(App);
+registerGlobalComponents(app);
+
+app.use(store).use(router).use(ElementPlus).mount("#app");
+
