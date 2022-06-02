@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: 优化图标显示 -->
   <el-menu :router="true" :default-active="$route.path">
     <el-menu-item index="/">首页</el-menu-item>
     <el-sub-menu v-for="menu in menus" :key="menu.id" :index="`${menu.id}`">
