@@ -1,8 +1,13 @@
-import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import NProgress from "nprogress";
 import { ElMessage } from "element-plus";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/store/auth";
+
+// nprogress options
+NProgress.configure({
+  showSpinner: false
+});
 
 const hasPermission = (path) => {
   const getters = mapState(useAuthStore, ["permissions"]);

@@ -8,9 +8,7 @@
         <Sidebar />
       </el-aside>
       <el-main class="contents-container">
-        <KeepAlive>
-          <router-view />
-        </KeepAlive>
+        <router-view />
       </el-main>
     </el-container>
   </el-container>
@@ -33,7 +31,6 @@ export default {
   height: 100%;
   overflow: hidden;
   .navbar {
-    line-height: 6rem;
     border-bottom: 1px solid #eee;
   }
   .sidebar {

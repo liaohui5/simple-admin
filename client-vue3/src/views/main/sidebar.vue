@@ -1,5 +1,5 @@
 <template>
-  <el-menu :router="true" :default-active="$route.path" class="sidebar-wrapper">
+  <el-menu :router="true" :default-active="$route.path">
     <el-menu-item index="/">首页</el-menu-item>
     <el-sub-menu v-for="menu in menus" :key="menu.id" :index="`${menu.id}`">
       <template #title>
@@ -25,9 +25,3 @@ const menus = $store.menus;
 
 const $route = useRoute();
 </script>
-
-<style lang="less" scoped>
-.sidebar-wrapper {
-  //  sdf
-}
-</style>

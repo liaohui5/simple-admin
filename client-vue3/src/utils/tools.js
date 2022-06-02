@@ -8,7 +8,7 @@
  * @param {String} option.children
  * @returns {Array}
  */
-export const getTree = (data, option) => {
+export const getTree = function (data, option) {
   const options = Object.assign(
     {
       root: 0,

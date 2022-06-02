@@ -9,7 +9,7 @@ import router from "@/router";
 import store from "@/store";
 
 // https://meyerweb.com/eric/tools/css/reset/
-import "reset-css";
+import "normalize.css"
 
 // element plus
 import ElementPlus from "element-plus";

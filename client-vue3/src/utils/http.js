@@ -1,7 +1,6 @@
 import axios from "axios";
 import $router from "@/router/index";
-import setSignatue from "@/utils/signature";
-import setToken from "@/utils/token";
+import beforeSend from "@/utils/beforeSend";
 import { ElMessage } from "element-plus";
 
 const http = axios.create({
@@ -14,8 +13,7 @@ const http = axios.create({
 
 // 全局请求拦截器: 添加 token(如果登录) && 添加 signature
 http.interceptors.request.use((config) => {
-  setToken(config);
-  setSignatue(config);
+  beforeSend(config);
   return config;
 });
 

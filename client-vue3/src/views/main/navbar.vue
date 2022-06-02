@@ -52,7 +52,9 @@ const goEditPassword = () => {
   }
   .infos {
     display: flex;
+    align-items: center;
     .item {
+      height: 100%;
       margin-left: 1.5rem;
     }
     .user {

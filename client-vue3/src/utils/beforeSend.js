@@ -1,6 +1,9 @@
 import { JSEncrypt } from "jsencrypt";
 import CryptoJS from "crypto-js";
+import { mapState } from "pinia";
+import { useAuthStore } from "@/store/auth";
 
+// !! 注意: 签名的私钥必须和服务端验证的公钥为一对
 const privateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQDA/SVT71FB1DABDW41oq6I7vBa9IcFNuEKnIVcLTZmnGfj5hx5
 Z1f1IkKdNj1YYFhMh5PxsYREd+uUHVwljDR9ZnPxcy0PNyMGaUiwkYBfrJ7W2K/B
@@ -18,12 +21,11 @@ MrbS/QSAWgxBr7LUhgelbYYAhGujA6LjOzL+m1NyS4k=
 -----END RSA PRIVATE KEY-----`;
 
 /**
- * 根据指定的算法生成 sign
- * !! 注意: 签名的私钥必须和服务端验证的公钥为一对
- * @param {*} config
- * @returns {String} 数据签名
+ * 生成数据签名
+ * @param {*} config Axios request config
+ * @returns {String}
  */
-function signByAxiosConfig(config) {
+function makeSignature(config) {
   const { baseURL, url, params, method, data } = config;
   const args = { url: `${baseURL}${url}`, method };
   if (data) args.data = data;
@@ -37,9 +39,21 @@ function signByAxiosConfig(config) {
 
   const jsencrypt = new JSEncrypt();
   jsencrypt.setPrivateKey(privateKey);
-  const sign = jsencrypt.sign(JSON.stringify(args), CryptoJS.SHA256, "sha256");
-  config.headers["Client-Signature"] = sign;
-  return config;
+  return jsencrypt.sign(JSON.stringify(args), CryptoJS.SHA256, "sha256");
 }
 
-export default signByAxiosConfig;
+
+/**
+ * 如果登录设置 token & 根据算法生成数据签名
+ * @param {*} config
+ * @returns {String} 数据签名
+ */
+export default function (config) {
+  const getters = mapState(useAuthStore, ["authUser"]);
+  const user = getters.authUser();
+  if (user && user.token) {
+    config.headers["User-Token"] = user.token;
+  }
+
+  config.headers["Client-Signature"] = makeSignature(config);
+}
