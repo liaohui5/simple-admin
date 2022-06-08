@@ -10,4 +10,4 @@
 
 #### 文档
 
-在线文档: https://liaohui5.gitee.io/simple-admin/#/
+在线文档: https://liaohui5.github.io/simple-admin/#/
