@@ -35,6 +35,7 @@ import { reactive, ref } from "vue";
 import { resetPassword } from "@/api";
 import { useAuthStore } from "@/store/auth.js";
 import { useRouter } from "vue-router";
+import { checkPasswordRules } from "@/utils/formCheckRules";
 
 const authStore = useAuthStore();
 const $router = useRouter();
@@ -66,24 +67,8 @@ function submitForm() {
 
 // 表单验证规则
 const formRule = {
-  old_password: [
-    { required: true, message: "密码不能为空", trigger: "blur" },
-    {
-      type: "string",
-      pattern: /^[a-z0-9_-]{6,16}$/i,
-      message: "密码有误",
-      trigger: "change",
-    },
-  ],
-  new_password: [
-    { required: true, message: "密码不能为空", trigger: "blur" },
-    {
-      type: "string",
-      pattern: /^[a-z0-9_-]{6,16}$/i,
-      message: "密码格式有误: 必须6-16位",
-      trigger: "change",
-    },
-  ],
+  old_password: checkPasswordRules,
+  new_password: checkPasswordRules,
   confirm_password: [
     { required: true, message: "确认密码不能为空", trigger: "blur" },
     {

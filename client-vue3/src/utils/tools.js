@@ -57,3 +57,25 @@ export const getTree = function (data, option) {
 
   return res;
 };
+
+/**
+ * 获取随机渐变背景颜色
+ * @returns {String}
+ */
+export function getRandomBgColor() {
+  const randomInArray = (arr) => {
+    const index = Math.floor(Math.random() * arr.length);
+    return arr[index];
+  };
+  const dirs = ["left", "right", "top", "bottom"];
+  const colors = [
+    "#a8c0ff, #3f2b96",
+    "#4e54c8, #8f94fb",
+    "#355c7d, #6c5b7b, #c06c84",
+    "#fc5c7d, #6a82fb",
+    "#108dc7, #ef8e38",
+  ];
+  const dir = randomInArray(dirs);
+  const color = randomInArray(colors);
+  return `linear-gradient(to ${dir}, ${color})`;
+}

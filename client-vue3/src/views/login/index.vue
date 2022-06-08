@@ -31,81 +31,39 @@
   </div>
 </template>
 
-<script>
-import { reactive, ref, toRaw, defineComponent } from "vue";
+<script setup>
+import { reactive, ref, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth.js";
+import { checkEmailRules, checkPasswordRules } from "@/utils/formCheckRules";
+import { getRandomBgColor } from "@/utils/tools";
 
-export default defineComponent({
-  setup() {
-    const $router = useRouter();
-    const authStore = useAuthStore();
+const $router = useRouter();
+const authStore = useAuthStore();
 
-    const loginFormRef = ref();
-    const loginForm = reactive({
-      email: "admin@qq.com",
-      password: "123456",
-    });
-    const loginRules = {
-      email: [
-        { required: true, message: "邮箱不能为空", trigger: "blur" },
-        {
-          type: "string",
-          pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-          message: "邮箱格式有误",
-          trigger: "change",
-        },
-      ],
-      password: [
-        { required: true, message: "密码不能为空", trigger: "blur" },
-        {
-          type: "string",
-          pattern: /^[a-z0-9_-]{6,16}$/i,
-          message: "密码格式有误: 必须6-16位",
-          trigger: "change",
-        },
-      ],
-    };
-
-    // 提交表单
-    const submit = async () => {
-      // 验证
-      await loginFormRef.value.validate(async (isPass) => {
-        if (!isPass) return;
-        await authStore.login(toRaw(loginForm));
-        $router.replace({ path: "/" });
-      });
-    };
-
-    // 获取随机渐变背景颜色
-    function getRandomBgColor() {
-      const randomInArray = (arr) => {
-        const index = Math.floor(Math.random() * arr.length);
-        return arr[index];
-      };
-      const dirs = ["left", "right", "top", "bottom"];
-      const colors = [
-        "#a8c0ff, #3f2b96",
-        "#4e54c8, #8f94fb",
-        "#355c7d, #6c5b7b, #c06c84",
-        "#fc5c7d, #6a82fb",
-        "#108dc7, #ef8e38",
-      ];
-      const dir = randomInArray(dirs);
-      const color = randomInArray(colors);
-      return `linear-gradient(to ${dir}, ${color})`;
-    }
-    const bgColor = getRandomBgColor();
-
-    return {
-      loginForm,
-      loginFormRef,
-      submit,
-      loginRules,
-      bgColor,
-    };
-  },
+const loginFormRef = ref();
+const loginForm = reactive({
+  email: "admin@qq.com",
+  password: "123456",
 });
+
+// 表单规则不会改变, 所以不需要响应式数据
+const loginRules = {
+  email: checkEmailRules,
+  password: checkPasswordRules,
+};
+
+// 提交表单
+const submit = () => {
+  // 验证通过才提交
+  loginFormRef.value.validate(async (isPass) => {
+    if (!isPass) return;
+    await authStore.login(toRaw(loginForm));
+    $router.replace({ path: "/" });
+  });
+};
+
+const bgColor = getRandomBgColor();
 </script>
 
 <style lang="less" scoped>
@@ -120,7 +78,7 @@ export default defineComponent({
     width: 45rem;
     font-size: 1.8rem;
   }
-  .card-header{
+  .card-header {
     margin: 0.5rem 0;
   }
 }
