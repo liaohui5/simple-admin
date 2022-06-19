@@ -1,17 +1,12 @@
-<template>
-  <el-container class="layout-container">
-    <el-header class="navbar">
-      <Navbar />
-    </el-header>
-    <el-container class="layout-container">
-      <el-aside width="30rem" class="sidebar">
-        <Sidebar />
-      </el-aside>
-      <el-main class="contents-container">
-        <router-view />
-      </el-main>
-    </el-container>
-  </el-container>
+<template lang="pug">
+el-container.layout-container
+  el-header.navbar
+    navbar
+  el-container.layout-container
+    el-aside.sidebar(width="30rem")
+      sidebar
+    el-main.contents-container
+      router-view
 </template>
 
 <script>

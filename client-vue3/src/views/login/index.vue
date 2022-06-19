@@ -1,34 +1,15 @@
-<template>
-  <div class="login-page" :style="{ background: bgColor }">
-    <el-card class="login-card">
-      <template #header>
-        <h2 class="card-header flex align-center">登录</h2>
-      </template>
-
-      <!-- login form -->
-      <el-form
-        ref="loginFormRef"
-        :rules="loginRules"
-        :model="loginForm"
-        label-position="left"
-        size="large"
-      >
-        <el-form-item label="" prop="email">
-          <el-input v-model="loginForm.email" placeholder="邮箱" />
-        </el-form-item>
-        <el-form-item label="" prop="password">
-          <el-input
-            v-model="loginForm.password"
-            type="password"
-            placeholder="密码"
-          />
-        </el-form-item>
-        <el-form-item label="">
-          <el-button type="primary" @click="submit">登录</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
-  </div>
+<template lang="pug">
+.login-page(:style="{ background: bgColor }")
+  el-card.login-card
+    template(#header)
+      h2.card-header.flex.align-center 登录
+    el-form(ref="loginFormRef" :rules="loginRules" :model="loginForm" label-position="left" size="large")
+      el-form-item(label="" prop="email")
+        el-input(v-model="loginForm.email" placeholder="邮箱")
+      el-form-item(label="" prop="password")
+        el-input(v-model="loginForm.password" type="password" placeholder="密码")
+      el-form-item(label="")
+        el-button(type="primary" @click="submit") 登录
 </template>
 
 <script setup>

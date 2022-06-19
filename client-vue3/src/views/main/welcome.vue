@@ -1,7 +1,6 @@
-<template>
-  <div>
-    welcome
-  </div>
+<template lang="pug">
+div
+  span welcome
 </template>
 
 <script>

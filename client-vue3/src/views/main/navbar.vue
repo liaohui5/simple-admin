@@ -1,21 +1,15 @@
-<template>
-  <div class="navbar-wrapper">
-    <div class="logo">Admin-Vue3</div>
-    <div class="infos">
-      <div class="item user">
-        <div class="avatar">
-          <img :src="user.avatar" />
-        </div>
-        <p>{{ user.username }}</p>
-      </div>
-      <div class="item">
-        <el-button type="primary" @click="goEditPassword">修改密码</el-button>
-      </div>
-      <div class="item">
-        <el-button type="danger" @click="logout">注销登录</el-button>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+.navbar-wrapper
+  .logo Admin-Vue3
+  .infos
+    .item.user
+      .avatar
+        img(:src="user.avatar")
+      p {{ user.username }}
+    .item
+      el-button(type="primary" @click="goEditPassword") 修改密码
+    .item
+      el-button(type="danger" @click="logout") 注销登录
 </template>
 
 <script setup>
