@@ -1,12 +1,9 @@
-<template>
-  <div class="breadcrumb-contaienr">
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ name: 'Welcome' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item v-for="item of props.paths" :key="item">{{
-        item
-      }}</el-breadcrumb-item>
-    </el-breadcrumb>
-  </div>
+<template lang="pug">
+.breadcrumb-contaienr
+  el-breadcrumb(separator="/")
+    el-breadcrumb-item(:to="{ name: 'Welcome' }") 首页
+    el-breadcrumb-item(v-for="item of props.paths" :key="item")
+      span {{item}}
 </template>
 
 <script setup>

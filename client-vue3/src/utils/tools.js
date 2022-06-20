@@ -59,14 +59,20 @@ export const getTree = function (data, option) {
 };
 
 /**
+ * 随机获取数组中的某一项目
+ * @param {any[]} arr
+ * @returns {number}
+ */
+export const randomInArray = (arr) => {
+  const index = Math.floor(Math.random() * arr.length);
+  return arr[index];
+};
+
+/**
  * 获取随机渐变背景颜色
  * @returns {String}
  */
 export function getRandomBgColor() {
-  const randomInArray = (arr) => {
-    const index = Math.floor(Math.random() * arr.length);
-    return arr[index];
-  };
   const dirs = ["left", "right", "top", "bottom"];
   const colors = [
     "#a8c0ff, #3f2b96",

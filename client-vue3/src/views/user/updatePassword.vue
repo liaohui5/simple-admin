@@ -1,17 +1,16 @@
 <template lang="pug">
-div
-  breadcrumb(:paths="['修改密码']")
-  .main-content
-    el-form.form-wrapper(:model="formData" :rules="formRule" ref="formRef" label-width="10rem" label-position="left")
-      el-form-item(label="当前密码" prop="old_password")
-        el-input(v-model="formData.old_password" type="password")
-      el-form-item(label="新密码" prop="new_password")
-        el-input(v-model="formData.new_password" type="password")
-      el-form-item(label="确认新密码" prop="confirm_password")
-        el-input(v-model="formData.confirm_password" type="password")
-      el-form-item.mb-0
-        el-button(type="primary" @click="submitForm") 确定
-        el-button(type="danger" native-type="reset" @click="resetFormData") 重置
+breadcrumb(:paths="['修改密码']")
+.main-content
+  el-form.form-wrapper(:model="formData" :rules="formRule" ref="formRef" label-width="10rem" label-position="left")
+    el-form-item(label="当前密码" prop="old_password")
+      el-input(v-model="formData.old_password" type="password")
+    el-form-item(label="新密码" prop="new_password")
+      el-input(v-model="formData.new_password" type="password")
+    el-form-item(label="确认新密码" prop="confirm_password")
+      el-input(v-model="formData.confirm_password" type="password")
+    el-form-item.mb-0
+      el-button(type="primary" @click="submitForm") 确定
+      el-button(type="danger" native-type="reset" @click="resetFormData") 重置
 </template>
 
 <script setup>
