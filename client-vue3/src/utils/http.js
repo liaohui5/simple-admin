@@ -12,28 +12,25 @@ const http = axios.create({
 });
 
 // 全局请求拦截器: 添加 token(如果登录) && 添加 signature
-http.interceptors.request.use((config) => {
-  beforeSend(config);
-  return config;
-});
+http.interceptors.request.use((config) => beforeSend(config));
 
 // 全局响应拦截器
 http.interceptors.response.use(
-  ({ data: res, status }) => {
-    if (status === 401) {
-      ElMessage.info(res.msg || "请先登录");
-      $router.push({ name: "Login" });
-      return;
-    }
-
+  ({ data: res }) => {
     if (!res.success) {
       throw new Error(res.msg || "响应报错了");
     }
-
     return res.data;
   },
   (err) => {
-    ElMessage.error(err.response.data.msg || "响应报错了");
+    console.log('[axios-error]: ', err);
+    const errMsg = err.response.data.msg;
+    if (err.response.status === 401) {
+      ElMessage.info(errMsg || "请先登录");
+      $router.push({ name: "Login" });
+      return;
+    }
+    ElMessage.error(errMsg || "响应报错了");
     Promise.reject(err);
   }
 );

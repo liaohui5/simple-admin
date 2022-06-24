@@ -2,7 +2,7 @@
 
 module.exports = {
   dialect: 'mysql',
-  host: 'localhost',
+  host: 'liaohui5.cn',
   port: 3306,
   database: 'simple_admin',
   username: 'root',

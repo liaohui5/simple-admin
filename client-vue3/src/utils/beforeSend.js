@@ -56,4 +56,5 @@ export default function (config) {
   }
 
   config.headers["Client-Signature"] = makeSignature(config);
+  return config;
 }
