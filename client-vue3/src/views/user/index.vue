@@ -25,7 +25,7 @@ breadcrumb(:paths="['用户管理', '用户列表']")
 
 //- 添加用户
 layer(ref="addUserLayer" title="创建用户信息" @cancel="cancel" @confirm="confirm")
-  el-form(:rules="addUserRules" label-position="left" label-width="80px" v-model="addUserModel")
+  el-form(:rules="addUserRules" :model="addUserModel" ref="addUserForm" label-position="left" label-width="100px")
     el-form-item(prop="username" label="用户名")
       el-input(v-model="addUserModel.username" max="16")
     el-form-item(prop="email" label="邮箱")
@@ -34,8 +34,8 @@ layer(ref="addUserLayer" title="创建用户信息" @cancel="cancel" @confirm="c
       el-input(v-model="addUserModel.password" type="password" max="16")
     el-form-item(prop="confirm" label="确认密码")
       el-input(v-model="addUserModel.confirm" type="password" max="16")
-    el-form-item(label="用户头像(可选)")
-      //-uploadcropper(:action="avatarUploadURL" :on-success="onUploadAvatarSuccess" :show-file-list="false")
+    //- el-form-item(label="用户头像(可选)")
+      uploadcropper(:action="avatarUploadURL" :on-success="onUploadAvatarSuccess" :show-file-list="false")
         img.avatar(v-if="newUserModel.avatar" :src="newUserModel.avatar")
         i.el-icon-plus.avatar-uploader-icon(v-else="")
 </template>
@@ -46,27 +46,12 @@ import { onBeforeMount } from "@vue/runtime-core";
 import { getUsers } from "@/api";
 import { memoize } from "@/utils/tools";
 import usePaginteGetData from "@/hooks/usePaginteGetData";
+import useAddUser from "./useAddUser";
 
 // 添加用户信息: 表单验证规则
-const addUserLayer = ref(null);
-const addUserRules = [];
-const addUserForm = {
-  username: "",
-  password: "",
-  confirm: "",
-};
-const addUserModel = reactive(addUserForm);
-function cancel() {
-  Object.keys(addUserForm).forEach((key) => {
-    addUserModel[key] = '';
-  });
-  addUserLayer.value.toggle(false);
-}
-function confirm() {
-  addUserLayer.value.toggle(false);
-}
+const { layerRef: addUserLayer, formRef: addUserForm, cancel, confirm, addUserModel, addUserRules } = useAddUser(getUserData);
 
-// 列表展示: 当onPageChange, onPageSizeChange, onSearch, onReset被调用时, 自动调用getUserData
+// 列表展示: 当切换当前页/每页多少条被调用时, 自动调用getUserData
 const { params, onPageChange, onPageSizeChange, onSearch, onReset } = usePaginteGetData(getUserData);
 const datas = reactive({
   count: 0,
@@ -86,12 +71,12 @@ async function getUserData() {
   datas.rows = res.rows;
 }
 
-// 列表展示: 自动获取数据
+// 自动获取数据
 onBeforeMount(async () => {
   await getUserData();
 });
 
-// 列表展示: 搜索下拉框选项
+// 搜索下拉框选项
 const searchTypes = [
   {
     label: "用户ID",
@@ -107,16 +92,14 @@ const searchTypes = [
   },
 ];
 
-// 列表展示: 搜索栏右边按钮
+// 搜索栏右边按钮
 const searchBtns = [
   {
     type: "success",
     text: "新增用户",
     handler: () => {
       addUserLayer.value.toggle(true);
-      console.log("addUserLayer.value: ", addUserLayer.value);
     },
   },
 ];
-// TODO: 添加用户 -> 封装裁剪图片组件 + 封装layer-hooks -> 分配角色 -> pinia
 </script>
