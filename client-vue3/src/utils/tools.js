@@ -74,14 +74,28 @@ export const randomInArray = (arr) => {
  */
 export function getRandomBgColor() {
   const dirs = ["left", "right", "top", "bottom"];
-  const colors = [
-    "#a8c0ff, #3f2b96",
-    "#4e54c8, #8f94fb",
-    "#355c7d, #6c5b7b, #c06c84",
-    "#fc5c7d, #6a82fb",
-    "#108dc7, #ef8e38",
-  ];
+  const colors = ["#a8c0ff, #3f2b96", "#4e54c8, #8f94fb", "#355c7d, #6c5b7b, #c06c84", "#fc5c7d, #6a82fb", "#108dc7, #ef8e38"];
   const dir = randomInArray(dirs);
   const color = randomInArray(colors);
   return `linear-gradient(to ${dir}, ${color})`;
+}
+
+/**
+ * 缓存获取数据的函数,不要每次都重新获取
+ * @param {Function} fn
+ * @param {Function} makeKey
+ * @returns {any}
+ */
+export function memoize(fn, makeKey = JSON.stringify) {
+  const mem = async function (...args) {
+    const key = makeKey(args);
+    const cache = mem.cache;
+    if (!cache.has(key)) {
+      const res = await fn.apply(this, args);
+      cache.set(key, res);
+    }
+    return cache.get(key);
+  };
+  mem.cache = new Map();
+  return mem;
 }

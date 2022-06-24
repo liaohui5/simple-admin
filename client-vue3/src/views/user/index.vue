@@ -6,7 +6,8 @@ breadcrumb(:paths="['用户管理', '用户列表']")
     el-table-column(prop="id" label="UID" width="100px")
     el-table-column(label="用户头像" width="100px")
       template(#default="scope")
-        img.user-avatar(:src="scope.row.avatar")
+        .avatar(style="width: 50px; height: 50px; border-radius: 25px; overflow: hidden;")
+          img(:src="scope.row.avatar" style="width:100%;")
     el-table-column(prop="username" label="用户名" width="100px")
     el-table-column(prop="email" label="邮箱地址" width="200px")
     el-table-column(prop="roles" label="用户角色")
@@ -21,15 +22,76 @@ breadcrumb(:paths="['用户管理', '用户列表']")
         el-button(type="danger" size="small") 锁定
         el-button(type="success" size="small") 解锁
   paginate(:total="datas.count" @page-change="onPageChange" @page-size-change="onPageSizeChange")
+
+//- 添加用户
+layer(ref="addUserLayer" title="创建用户信息" @cancel="cancel" @confirm="confirm")
+  el-form(:rules="addUserRules" label-position="left" label-width="80px" v-model="addUserModel")
+    el-form-item(prop="username" label="用户名")
+      el-input(v-model="addUserModel.username" max="16")
+    el-form-item(prop="email" label="邮箱")
+      el-input(v-model="addUserModel.email")
+    el-form-item(prop="password" label="密码")
+      el-input(v-model="addUserModel.password" type="password" max="16")
+    el-form-item(prop="confirm" label="确认密码")
+      el-input(v-model="addUserModel.confirm" type="password" max="16")
+    el-form-item(label="用户头像(可选)")
+      //-uploadcropper(:action="avatarUploadURL" :on-success="onUploadAvatarSuccess" :show-file-list="false")
+        img.avatar(v-if="newUserModel.avatar" :src="newUserModel.avatar")
+        i.el-icon-plus.avatar-uploader-icon(v-else="")
 </template>
 
 <script setup>
-import { reactive, toRaw } from "@vue/reactivity";
+import { reactive, ref, toRaw } from "@vue/reactivity";
 import { onBeforeMount } from "@vue/runtime-core";
 import { getUsers } from "@/api";
+import { memoize } from "@/utils/tools";
 import usePaginteGetData from "@/hooks/usePaginteGetData";
 
-// 搜索下拉框选项
+// 添加用户信息: 表单验证规则
+const addUserLayer = ref(null);
+const addUserRules = [];
+const addUserForm = {
+  username: "",
+  password: "",
+  confirm: "",
+};
+const addUserModel = reactive(addUserForm);
+function cancel() {
+  Object.keys(addUserForm).forEach((key) => {
+    addUserModel[key] = '';
+  });
+  addUserLayer.value.toggle(false);
+}
+function confirm() {
+  addUserLayer.value.toggle(false);
+}
+
+// 列表展示: 当onPageChange, onPageSizeChange, onSearch, onReset被调用时, 自动调用getUserData
+const { params, onPageChange, onPageSizeChange, onSearch, onReset } = usePaginteGetData(getUserData);
+const datas = reactive({
+  count: 0,
+  rows: [],
+});
+
+// 列表展示: 获取列表数据
+const getUsersCache = memoize(getUsers);
+async function getUserData() {
+  const query = toRaw(params);
+  if (!query.content && !query.type) {
+    delete query.type;
+    delete query.content;
+  }
+  const res = await getUsersCache(query);
+  datas.count = res.count;
+  datas.rows = res.rows;
+}
+
+// 列表展示: 自动获取数据
+onBeforeMount(async () => {
+  await getUserData();
+});
+
+// 列表展示: 搜索下拉框选项
 const searchTypes = [
   {
     label: "用户ID",
@@ -45,37 +107,16 @@ const searchTypes = [
   },
 ];
 
-// 搜索栏右边按钮
+// 列表展示: 搜索栏右边按钮
 const searchBtns = [
   {
     type: "success",
     text: "新增用户",
     handler: () => {
-      console.info("show new user layer");
+      addUserLayer.value.toggle(true);
+      console.log("addUserLayer.value: ", addUserLayer.value);
     },
   },
 ];
-
-// 当pageChange/pageSize被调用时, 自动调用getUserData
-const { params, onPageChange, onPageSizeChange, onSearch, onReset } = usePaginteGetData(getUserData);
-const datas = reactive({
-  count: 0,
-  rows: [],
-});
-
-// 获取数据
-async function getUserData() {
-  const query = toRaw(params);
-  if (!query.content && !query.type) {
-    delete query.type;
-    delete query.content;
-  }
-  const res = await getUsers(query);
-  datas.count = res.count;
-  datas.rows = res.rows;
-}
-
-onBeforeMount(async () => {
-  await getUserData();
-});
+// TODO: 添加用户 -> 封装裁剪图片组件 + 封装layer-hooks -> 分配角色 -> pinia
 </script>

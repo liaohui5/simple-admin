@@ -5,7 +5,6 @@ import App from "@/App.vue";
 import router from "@/router";
 
 // pinia: https://pinia.web3doc.top/introduction.html
-// import store from "./store";
 import store from "@/store";
 
 // https://github.com/necolas/normalize.css
@@ -19,7 +18,7 @@ import "element-plus/dist/index.css";
 import "@/assets/global.less";
 
 // global components
-import registerGlobalComponents from "./components/index";
+import registerGlobalComponents from "@/components/index";
 
 const app = createApp(App);
 registerGlobalComponents(app);

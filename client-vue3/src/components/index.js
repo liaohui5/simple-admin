@@ -1,6 +1,7 @@
 import breadcrumb from "@/components/breadcrumb.vue";
 import search from "@/components/search.vue";
 import paginate from "@/components/paginate.vue";
+import layer from "@/components/layer.vue";
 
 /**
  * 注册全局组件
@@ -10,7 +11,8 @@ function registerGlobalComponents(app) {
   const globalComponents = [
     breadcrumb,
     search,
-    paginate
+    paginate,
+    layer,
   ];
 
   for (const item of globalComponents) {
