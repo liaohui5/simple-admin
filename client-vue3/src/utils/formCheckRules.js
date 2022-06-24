@@ -2,17 +2,6 @@
  * 所有可复用的表单验证规则
  */
 
-// 检查用户名
-export const checkUsernameRules = [
-  { required: true, message: "用户名不能为空", trigger: "blur" },
-  {
-    type: "string",
-    pattern: /^[_0-9a-z\u4e00-\u9fa5]{1,16}$/i,
-    message: "用户名格式有误",
-    trigger: "blur",
-  },
-];
-
 // 检查邮箱
 export const checkEmailRules = [
   { required: true, message: "邮箱不能为空", trigger: "blur" },
@@ -34,4 +23,3 @@ export const checkPasswordRules = [
     trigger: "change",
   },
 ];
-

@@ -8,6 +8,3 @@ export const resetPassword = (data) => http.post("/user/update_password", data);
 
 // 获取用户列表
 export const getUsers = (params) => http.get("/users", {params});
-
-// 创建用户信息
-export const createUser = (data) => http.post("/users", data);
