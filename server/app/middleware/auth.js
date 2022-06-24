@@ -13,10 +13,6 @@ module.exports = () => async (ctx, next) => {
   }
 
   // 判断 token 是否正确(docs: https://www.npmjs.com/package/jsonwebtoken)
-  try {
-    ctx.user = await jwt.verify(token, ctx.app.config.keys);
-    await next();
-  } catch (e) {
-    ctx.error(401);
-  }
+  ctx.user = await jwt.verify(token, ctx.app.config.keys);
+  await next();
 };

@@ -3,6 +3,8 @@
 'use strict';
 
 const db = require('./database');
+const onerror = require('./onerror');
+const cors = require('./cors');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -31,19 +33,7 @@ module.exports = appInfo => {
   };
 
   // 允许跨域
-  config.cors = {
-    // origin: ['http://localhost:8080'],
-    origin: '*',
-    keepHeadersOnError: true,
-    allowMethods: 'GET,HEAD,POST,PUT,DELETE,PATCH,OPTIONS',
-    allowHeaders: [
-      'Accept',
-      'Content-Type',
-      'Client-Signature',
-      'User-Token',
-      'x-requested-with',
-    ],
-  };
+  config.cors = cors;
 
   // 文件上传配置
   config.multipart = {
@@ -52,24 +42,7 @@ module.exports = appInfo => {
   };
 
   // 异常处理
-  config.onerror = {
-    // 代码异常时, 执行这个处理函数, 其他函数不会生效
-    // all(){}
-
-    // 当请求头中没有: Accept: application/json 时执行
-    html(e, ctx) {
-      ctx.body = `<h1>服务端报错了...</h1><p>${e.message}<p>`;
-    },
-
-    // 当请求头中有: Accpet: application/json 时候执行, 用于接口的错误处理
-    json(e, ctx) {
-      // eslint-disable-next-line no-proto
-      if (e.__proto__.constructor.name === 'UnprocessableEntityError') {
-        return ctx.error(422, e.errors[0].message); // 处理 egg-validate 抛的异常
-      }
-      return ctx.error(500, e.message);
-    },
-  };
+  config.onerror = onerror;
 
   // 自定义配置
   const userConfig = {
