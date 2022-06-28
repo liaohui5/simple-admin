@@ -1,7 +1,7 @@
 <template lang="pug">
 .login-page(:style="{ background: bgColor }")
   el-card.login-card
-    template(#header)
+    template(v-slot:header)
       h2.card-header.flex.align-center 登录
     el-form(ref="loginFormRef" :rules="loginRules" :model="loginForm" label-position="left" size="large")
       el-form-item(label="" prop="email")
