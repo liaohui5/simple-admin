@@ -7,7 +7,7 @@ import layer from "@/components/layer.vue";
  * 注册全局组件
  * @param {*} app
  */
-function registerGlobalComponents(app) {
+export function registerGlobalComponents(app) {
   const globalComponents = [
     breadcrumb,
     search,
@@ -20,4 +20,4 @@ function registerGlobalComponents(app) {
   }
 }
 
-export default registerGlobalComponents;
+

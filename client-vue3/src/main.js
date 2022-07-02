@@ -18,7 +18,7 @@ import "element-plus/dist/index.css";
 import "@/assets/global.less";
 
 // global components
-import registerGlobalComponents from "@/components/index";
+import { registerGlobalComponents } from "@/extends/components";
 
 const app = createApp(App);
 registerGlobalComponents(app);
