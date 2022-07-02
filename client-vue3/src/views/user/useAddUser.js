@@ -39,11 +39,11 @@ function useAddUser(refresh) {
   };
 
   // 点击确定提交表单
-  function confirm() {
+  function addUserConfirm() {
     formRef.value.validate(async (isPass) => {
       if (!isPass) return;
       await createUser(addUserModel);
-      cancel();
+      addUserCancel();
       typeof refresh === "function" && refresh();
     });
   }
@@ -56,18 +56,18 @@ function useAddUser(refresh) {
   }
 
   // 取消
-  function cancel() {
+  function addUserCancel() {
     resetForm();
     layerRef.value.toggle(false);
   }
 
   return {
-    layerRef,
-    formRef,
+    addUserLayer: layerRef,
+    addUserForm: formRef,
     addUserModel,
     addUserRules,
-    confirm,
-    cancel,
+    addUserConfirm,
+    addUserCancel,
   };
 }
 

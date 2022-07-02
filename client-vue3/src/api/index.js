@@ -7,7 +7,10 @@ export const login = (data) => http.post("/user/login", data);
 export const resetPassword = (data) => http.post("/user/update_password", data);
 
 // 获取用户列表
-export const getUsers = (params) => http.get("/users", {params});
+export const getUsers = (params) => http.get("/users", { params });
 
 // 创建用户信息
 export const createUser = (data) => http.post("/users", data);
+
+// 修改用户信息
+export const updateUserInfo = (id, data) => http.patch(`/users/${id}`, data);

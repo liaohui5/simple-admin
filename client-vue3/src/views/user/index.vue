@@ -17,14 +17,14 @@ breadcrumb(:paths="['用户管理', '用户列表']")
     el-table-column(prop="created_at" label="创建时间")
     el-table-column(label="操作")
       template(#default="scope")
-        el-button(type="primary" size="small") 修改
+        el-button(type="primary" size="small" @click="showUpdateLayer(scope.row)") 修改
         el-button(type="warning" size="small") 分配角色
-        el-button(type="danger" size="small") 锁定
-        el-button(type="success" size="small") 解锁
+        el-button(v-if="scope.row.status === 0" type="danger" size="small" @click="toggleStatus(scope.row)") 锁定
+        el-button(v-else type="success" size="small" @click="toggleStatus(scope.row)") 解锁
   paginate(:total="datas.count" @page-change="onPageChange" @page-size-change="onPageSizeChange")
 
 //- 添加用户
-layer(ref="addUserLayer" title="创建用户信息" @cancel="cancel" @confirm="confirm")
+layer(ref="addUserLayer" title="创建用户信息" @cancel="addUserCancel" @confirm="addUserConfirm")
   el-form(:rules="addUserRules" :model="addUserModel" ref="addUserForm" label-position="left" label-width="100px")
     el-form-item(prop="username" label="用户名")
       el-input(v-model="addUserModel.username" max="16")
@@ -34,22 +34,38 @@ layer(ref="addUserLayer" title="创建用户信息" @cancel="cancel" @confirm="c
       el-input(v-model="addUserModel.password" type="password" max="16")
     el-form-item(prop="confirm" label="确认密码")
       el-input(v-model="addUserModel.confirm" type="password" max="16")
-    //- el-form-item(label="用户头像(可选)")
-      uploadcropper(:action="avatarUploadURL" :on-success="onUploadAvatarSuccess" :show-file-list="false")
-        img.avatar(v-if="newUserModel.avatar" :src="newUserModel.avatar")
-        i.el-icon-plus.avatar-uploader-icon(v-else="")
+    //- 头像
+
+//- 修改用户信息
+layer(ref="updateUserLayer" title="修改用户信息" @cancel="updateUserCancel" @confirm="updateUserConfirm")
+  el-form(:rules="updateUserRules" :model="updateUserModel" ref="updateUserForm" label-position="left" label-width="100px")
+    el-form-item(prop="username" label="用户名")
+      el-input(v-model="updateUserModel.username" max="16")
+    el-form-item(prop="email" label="邮箱")
+      el-input(v-model="updateUserModel.email")
+    //-el-form-item(prop="password" label="密码")
+      el-input(v-model="updateUserModel.password" type="password" max="16")
+    //- 头像
 </template>
 
 <script setup>
-import { reactive, ref, toRaw } from "@vue/reactivity";
+import { reactive, toRaw } from "@vue/reactivity";
 import { onBeforeMount } from "@vue/runtime-core";
 import { getUsers } from "@/api";
 import { memoize } from "@/utils/tools";
 import usePaginteGetData from "@/hooks/usePaginteGetData";
 import useAddUser from "./useAddUser";
+import useUpdateUser from "./useUpdateUser";
 
 // 添加用户信息: 表单验证规则
-const { layerRef: addUserLayer, formRef: addUserForm, cancel, confirm, addUserModel, addUserRules } = useAddUser(getUserData);
+const { addUserLayer, addUserForm, addUserCancel, addUserConfirm, addUserModel, addUserRules } = useAddUser(getUserData);
+
+// 修改用户信息
+const { toggleStatus, updateUserLayer, updateFormReset, updateUserForm, updateUserCancel, updateUserConfirm, updateUserModel, updateUserRules } = useUpdateUser(getUserData);
+function showUpdateLayer(raw) {
+  updateUserLayer.value.toggle(true);
+  updateFormReset(raw);
+}
 
 // 列表展示: 当切换当前页/每页多少条被调用时, 自动调用getUserData
 const { params, onPageChange, onPageSizeChange, onSearch, onReset } = usePaginteGetData(getUserData);
@@ -60,13 +76,14 @@ const datas = reactive({
 
 // 列表展示: 获取列表数据
 const getUsersCache = memoize(getUsers);
-async function getUserData() {
+async function getUserData(ignoreCache = false) {
   const query = toRaw(params);
   if (!query.content && !query.type) {
     delete query.type;
     delete query.content;
   }
-  const res = await getUsersCache(query);
+  const reqUsers = ignoreCache ? getUsers : getUsersCache;
+  const res = await reqUsers(query);
   datas.count = res.count;
   datas.rows = res.rows;
 }
